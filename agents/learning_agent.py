@@ -3,7 +3,6 @@ from collections import defaultdict
 import pickle
 
 
-
 class QLearningAgent:
     def __init__(
         self,
@@ -39,14 +38,10 @@ class QLearningAgent:
     def default_value(self):
         return np.zeros(self.env.action_space.n)
     
-    def get_action_from_q_result(self, obs) -> int:
+    def get_action_from_q_result(self, obs):
         return int(np.argmax(self.q_values[obs]))
         
     def get_action(self, obs) -> int:
-        """
-        Returns the best action with probability (1 - epsilon)
-        otherwise a random action with probability epsilon to ensure exploration.
-        """
         # with probability epsilon return a random action to explore the environment
         if np.random.random() < self.epsilon:
             return self.env.action_space.sample()
@@ -65,10 +60,7 @@ class QLearningAgent:
     ):
         """Updates the Q-value of an action."""
         future_q_value = (not terminated) * np.max(self.q_values[next_obs])
-        #future_q_value = np.max(self.q_values[next_obs])
-        temporal_difference = (
-            reward + self.discount_factor * future_q_value - self.q_values[obs][action]
-        )
+        temporal_difference = reward + self.discount_factor * future_q_value - self.q_values[obs][action]
 
         self.q_values[obs][action] = (
             self.q_values[obs][action] + self.lr * temporal_difference
