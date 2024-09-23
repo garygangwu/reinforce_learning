@@ -55,6 +55,10 @@ cover/
 *.mo
 *.pot
 
+# random
+*.pkl
+*training_results.png
+
 # Django stuff:
 *.log
 local_settings.py
