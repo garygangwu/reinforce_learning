@@ -43,7 +43,7 @@ class ContinuousActionQLearningAgent(QLearningAgent):
             return [action_space[num_action_space-1]]
 
 
-def training(env, agent, n_episodes, game_name):
+def training(env, agent, n_episodes, environment_id):
     global pos_space, vel_space, action_space
     
     rewards_per_episode = []
@@ -87,7 +87,7 @@ def training(env, agent, n_episodes, game_name):
         mean_rewards = np.mean(rewards_per_episode[len(rewards_per_episode)-100:])
         if episode > 0 and episode % 100==0 or total_rewards > 10:
             print(f'Episode: {episode} {total_rewards}  Epsilon: {agent.epsilon:0.2f}  Mean Rewards {mean_rewards:0.1f}')
-    draw_summary_results(env, rewards_per_episode, game_name)
+    draw_summary_results(env, rewards_per_episode, environment_id)
 
 
 def play(env, agent, times=100):
@@ -129,10 +129,10 @@ RL_traning = False
 if len(sys.argv) > 1:
     RL_traning = True
 
-game_name = "MountainCarContinuous-v0"
-filename = f'{game_name}.pkl'
+environment_id = "MountainCarContinuous-v0"
+filename = f'{environment_id}.pkl'
 
-env = gym.make(game_name,
+env = gym.make(environment_id,
                render_mode= "human" if not RL_traning else None)
 
 num_spaces = 20
@@ -142,7 +142,7 @@ vel_space = np.linspace(env.observation_space.low[1], env.observation_space.high
 action_space = np.linspace(env.action_space.low[0], env.action_space.high[0], num_action_space)
 
 if RL_traning:
-    env = gym.make(game_name)
+    env = gym.make(environment_id)
     learning_rate = 0.9
     n_episodes = 8000
     start_epsilon = 1.0
@@ -158,7 +158,7 @@ if RL_traning:
     )
 
     env = gym.wrappers.RecordEpisodeStatistics(env)
-    training(env, agent, n_episodes, game_name)
+    training(env, agent, n_episodes, environment_id)
     agent.save_to_file(filename)
 else:
     agent = ContinuousActionQLearningAgent(env)

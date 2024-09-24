@@ -7,7 +7,7 @@ from gymnasium.wrappers import RecordEpisodeStatistics
 from lib import draw_summary_results
 
 
-def training(env, agent, n_episodes, game_name):
+def training(env, agent, n_episodes, environment_id):
     rewards_per_episode = []
 
     for episode in range(n_episodes):
@@ -29,7 +29,7 @@ def training(env, agent, n_episodes, game_name):
         mean_rewards = np.mean(rewards_per_episode[len(rewards_per_episode)-1000:])
         if episode > 0 and episode % 1000==0:
             print(f'Episode: {episode} {reward}  Epsilon: {agent.epsilon:0.2f}  Mean Rewards {mean_rewards:0.1f}')
-    draw_summary_results(env, rewards_per_episode, game_name)
+    draw_summary_results(env, rewards_per_episode, environment_id)
 
 
 def play(env, agent, times=100):
@@ -60,9 +60,9 @@ RL_traning = False
 if len(sys.argv) > 1:
     RL_traning = True
 
-game_name = "FrozenLake-v1"
-filename = f"{game_name}.pkl"
-env = gym.make(game_name,
+environment_id = "FrozenLake-v1"
+filename = f"{environment_id}.pkl"
+env = gym.make(environment_id,
                is_slippery=True,
                map_name="8x8",
                render_mode="human" if not RL_traning else None)
@@ -82,7 +82,7 @@ if RL_traning:
     )
 
     env = gym.wrappers.RecordEpisodeStatistics(env)
-    training(env, agent, n_episodes, game_name)
+    training(env, agent, n_episodes, environment_id)
     agent.save_to_file(filename)
 else:
     agent = QLearningAgent(env)
