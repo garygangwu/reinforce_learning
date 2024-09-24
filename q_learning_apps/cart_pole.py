@@ -7,7 +7,7 @@ from gymnasium.wrappers import RecordEpisodeStatistics
 from lib import draw_summary_results
 
 
-def training(env, agent, n_episodes, game_name):
+def training(env, agent, n_episodes, environment_id):
     global pos_space, vel_space, ang_space, ang_vel_space
     rewards_per_episode = []
 
@@ -54,7 +54,7 @@ def training(env, agent, n_episodes, game_name):
 
         if episode % 100==0:
             print(f'Episode: {episode} {total_rewards}  Epsilon: {agent.epsilon:0.2f}  Mean Rewards {mean_rewards:0.1f}')
-    draw_summary_results(env, rewards_per_episode, game_name)
+    draw_summary_results(env, rewards_per_episode, environment_id)
 
 
 def play(env, agent, times=100):
@@ -98,10 +98,10 @@ RL_traning = False
 if len(sys.argv) > 1:
     RL_traning = True
 
-game_name = "CartPole-v1"
-filename = f'{game_name}.pkl'
+environment_id = "CartPole-v1"
+filename = f'{environment_id}.pkl'
 
-env = gym.make(game_name,
+env = gym.make(environment_id,
                render_mode= "human" if not RL_traning else None)
 cart_position_space = 10
 cart_velocity_space = 10
@@ -128,7 +128,7 @@ if RL_traning:
     )
 
     env = gym.wrappers.RecordEpisodeStatistics(env)
-    training(env, agent, n_episodes, game_name)
+    training(env, agent, n_episodes, environment_id)
     agent.save_to_file(filename)
 else:
     agent = QLearningAgent(env)
