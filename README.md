@@ -1,5 +1,5 @@
 # Reinforce Learning
-This repo use gymnasium to implement basic reinforcement learning applications
+This repo use [gymnasium](https://www.gymlibrary.dev/) to implement basic reinforcement learning applications
 
 ## Simple applications using Q-learning algoritm
 
