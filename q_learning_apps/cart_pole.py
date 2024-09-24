@@ -50,9 +50,9 @@ def training(env, agent, n_episodes, environment_id):
 
         agent.decay_epsilon()
         rewards_per_episode.append(total_rewards)
-        mean_rewards = np.mean(rewards_per_episode[len(rewards_per_episode)-100:])
+        mean_rewards = np.mean(rewards_per_episode[len(rewards_per_episode)-1000:])
 
-        if episode % 100==0:
+        if episode % 1000==0:
             print(f'Episode: {episode} {total_rewards}  Epsilon: {agent.epsilon:0.2f}  Mean Rewards {mean_rewards:0.1f}')
     draw_summary_results(env, rewards_per_episode, environment_id)
 
@@ -114,7 +114,7 @@ ang_vel_space = np.linspace(-4, 4, pole_angle_space)
 
 if RL_traning:
     learning_rate = 0.1
-    n_episodes = 500000
+    n_episodes = 100000
     start_epsilon = 1.0
     epsilon_decay = start_epsilon / (n_episodes/1.2)  # reduce the exploration over time
     final_epsilon = 0.001
