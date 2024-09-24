@@ -23,3 +23,8 @@ One challenge with this problem is that Q-learning can sometimes lead to local i
 
 https://github.com/user-attachments/assets/d8b3d989-fa9d-435b-b6d3-e48479ea74a7
 
+### 5. Cart Pole ([code](q_learning_apps/cart_pole.py))
+The [Cart Pole](https://www.gymlibrary.dev/environments/classic_control/cart_pole/) tries balancing a pole on a cart by applying forces to move the cart left or right.
+
+https://github.com/user-attachments/assets/3fa3d5b4-70cb-42a9-a683-95079f43b8ce
+
