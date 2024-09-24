@@ -1,2 +1,14 @@
-# reinforce_learning
-use gymnasium to implement basic reinforcement learning applications
+# Reinforce Learning
+This repo use gymnasium to implement basic reinforcement learning applications
+
+## Simple applications using Q-learning algoritm
+
+### 1. Frozen Lake
+Successfully solved 8X8 [Frozen Lake](https://www.gymlibrary.dev/environments/toy_text/frozen_lake/) in slippery mode, where there's only a 1/3 chance of moving in the intended direction.
+
+Demo:
+
+https://github.com/user-attachments/assets/e00c8169-d24f-4b91-b14a-9f912972ff0a
+
+
+
