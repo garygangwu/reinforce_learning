@@ -46,14 +46,13 @@ model = nn.Sequential(
 )
 print(model)
 
-loss_fn = torch.nn.MSELoss() 
+loss_fn = torch.nn.MSELoss() # torch.nn.L1Loss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learningRate)
 
 # Converting inputs and labels to Variable
 inputs = Variable(torch.from_numpy(x_train))
+labels = Variable(torch.from_numpy(y_train))
 for epoch in range(epochs+1):
-    labels = Variable(torch.from_numpy(y_train))
-    
     # Clear gradient buffers 
     # because we don't want any gradient from previous epoch 
     # to carry forward, dont want to cummulate gradients
@@ -64,7 +63,7 @@ for epoch in range(epochs+1):
     
     # get loss for the predicted output
     loss = loss_fn(outputs, labels)
-    
+
     # get gradients w.r.t to parameters
     loss.backward()
     
@@ -86,4 +85,5 @@ with torch.no_grad():
     y_predicted = model(inputs).data.numpy()
 y_predicted = y_predicted.reshape(-1)
 draw_figure(XX, YY, y_predicted)
+print(model.state_dict())
 

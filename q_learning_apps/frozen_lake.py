@@ -5,7 +5,26 @@ import gymnasium as gym
 from agents import QLearningAgent
 from gymnasium.wrappers import RecordEpisodeStatistics
 from lib import draw_summary_results
+import math
 
+def print_dqn(env, agent):
+    ACTIONS = ['L','D','R','U']     # for printing 0,1,2,3 => L(eft),D(own),R(ight),U(p)
+
+    # Get number of input nodes
+    num_states = env.observation_space.n
+    num_cols = int(math.sqrt(num_states + 1))
+
+    # Loop each state and print policy to console
+    for obs in range(num_states):
+
+        # Map the best action to L D R U
+        best_action = ACTIONS[agent.get_action_from_q_result(obs)]
+
+        # The printed layout matches the FrozenLake map.
+        print(f'{obs:02},{best_action}', end=' ')
+
+        if (obs+1)%num_cols==0:
+            print() # Print a newline every 4 states
 
 def training(env, agent, n_episodes, environment_id):
     rewards_per_episode = []
@@ -36,6 +55,7 @@ def play(env, agent, times=100):
     successed = 0
     failed = 0
     draw = 0
+ 
     for _ in range(times):
         obs, _ = env.reset()
         terminated = False
@@ -87,4 +107,5 @@ if RL_traning:
 else:
     agent = QLearningAgent(env)
     agent.load_from_file(filename)
+    print_dqn(env, agent)
     play(env, agent, times=100)
