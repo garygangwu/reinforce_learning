@@ -146,7 +146,7 @@ class FrozenLakeDQL():
         plt.plot(epsilon_history)
         
         # Save plots
-        plt.savefig('frozen_lake_dql.png')
+        plt.savefig('frozen_lake_dql_training_results.png')
 
     # Optimize policy network
     def optimize(self, i, mini_batch, policy_dqn_model, target_dqn_model):
