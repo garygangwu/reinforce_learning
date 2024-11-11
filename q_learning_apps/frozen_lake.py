@@ -1,5 +1,5 @@
 import sys
-sys.path.append('..')   
+sys.path.append('..')
 import numpy as np
 import gymnasium as gym
 from agents import QLearningAgent
@@ -55,21 +55,22 @@ def play(env, agent, times=100):
     successed = 0
     failed = 0
     draw = 0
- 
+
     for _ in range(times):
         obs, _ = env.reset()
         terminated = False
+        truncated = False
 
         # play one episode
-        while not terminated:
+        while not terminated and not truncated:
             action = agent.get_action_from_q_result(obs)
             next_obs, reward, terminated, truncated, _ = env.step(action)
             obs = next_obs
 
-        if reward >= 1.0:
-            successed += 1
-        elif reward == 0:
+        if truncated:
             draw += 1
+        elif terminated and reward > 0:
+            successed += 1
         else:
             failed += 1
         print("reward = ", reward)
@@ -85,7 +86,8 @@ filename = f"{environment_id}.pkl"
 env = gym.make(environment_id,
                is_slippery=True,
                map_name="8x8",
-               render_mode="human" if not RL_traning else None)
+               render_mode=None)
+               #render_mode="human" if not RL_traning else None)
 
 if RL_traning:
     learning_rate = 0.1
@@ -108,4 +110,4 @@ else:
     agent = QLearningAgent(env)
     agent.load_from_file(filename)
     print_dqn(env, agent)
-    play(env, agent, times=100)
+    play(env, agent, times=1000)
